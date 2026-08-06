@@ -34,7 +34,7 @@ NOT_GOING_CATEGORIES = [
     ("Another Family Member Going Instead", r"(husband|wife|dad|father|mom|mother|uncle|aunt|grandpa|grandma|grandmother|grandfather) is going|another (parent|family member)"),
     ("Child Didn't Want Parent to Come", r"did ?n'?t want me|does ?n'?t want me|asked (me )?not|want(ed)? (him|her) to go alone|want(ed)? (his|her) own (space|experience)"),
     ("Wants Child to Have Independent Experience", r"independen|own experience|without (a |his |her |my )?(me|mom|dad|us|parent)|on (his|her) own|\bgrow\b|confidence|rely on (his|her)|\balone\b|\bsolo\b|autonomy|\bexperience\b"),
-    ("Health / Physical / Age", r"\bhealth\b|physical|\bknee\b|\bback\b|\bage\b|\btoo old\b|medical|injur|illness|disab"),
+    ("Health / Physical / Age", r"\bhealth\b|physical|\bknee\b|bad back|back (pain|injury|problem)|\bage\b|\btoo old\b|medical|injur|illness|disab"),
     ("Other Life Commitment", r"\bmission\b|wedding|surgery|pregnan|\bmov(e|ing)\b|deploy|trip leader|another (trip|program)|graduat"),
     ("Didn't Understand the Program", r"did ?n'?t (really )?understand|not sure what|unclear|confus"),
     ("Not Needed", r"not needed|not necessary|no need|did ?n'?t need"),
