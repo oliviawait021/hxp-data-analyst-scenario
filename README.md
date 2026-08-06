@@ -20,4 +20,15 @@ Every summer before trips start, HXP surveys builders and their parents (both th
 
 ## Source data
 
-Raw responses: [Google Sheet](https://docs.google.com/spreadsheets/d/1PhClVzrInmpbLjNGCx37O11qmA0evbSgcuimX1XQeTQ/edit?usp=sharing) (partial export, 1,315 responses, 4 columns: planning-to-go status, reason to go, reason not to go, what would change the decision).
+Raw responses: [Google Sheet](https://docs.google.com/spreadsheets/d/1PhClVzrInmpbLjNGCx37O11qmA0evbSgcuimX1XQeTQ/edit?usp=sharing) (partial export, 1,315 rows including 126 empty rows, 4 columns: planning-to-go status, reason to go, reason not to go, what would change the decision).
+
+## Data transformation
+
+`scripts/transform_data.py` reads `Data Team Scenario.xlsx`, drops empty rows, normalizes text, and tags each free-text response into a category (e.g. Cost / Finances, Work Schedule / Time Off, Wants Child to Have Independent Experience) using keyword matching. Output goes to `data/processed/parent_survey_cleaned.csv`, which is what feeds the dashboard's pivot tables/charts.
+
+```
+pip install -r requirements.txt
+python3 scripts/transform_data.py
+```
+
+Categories are a first pass via regex, not a substitute for reading the responses — the script prints an "Other / Uncategorized" count on each run so you can spot-check how much is still unclassified and refine the keyword lists as needed.
