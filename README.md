@@ -32,3 +32,22 @@ python3 scripts/transform_data.py
 ```
 
 Categories are a first pass via regex, not a substitute for reading the responses — the script prints an "Other / Uncategorized" count on each run so you can spot-check how much is still unclassified and refine the keyword lists as needed.
+
+`scripts/qa_check.py` verifies `parent_survey_cleaned.csv` is a faithful transformation of the source (no dropped/corrupted rows, no text without a matching category or vice versa). Run it after any change to `transform_data.py`.
+
+## Insights
+
+`scripts/derive_insights.py` reads the cleaned CSV and adds four independent, separately-labeled insights on top of the categories:
+
+1. **Controllability** — is this "why not" reason something HXP can directly fix (cost, awareness, capacity), something HXP can influence (scheduling, personal hesitation), or a family's own choice? Answers "where should the Parent Builder team actually spend effort."
+2. **Soft No signal** — flags responses hinting the "no" isn't final (*"would love to go next year"*) — a previously-invisible list of parents worth re-engaging.
+3. **Reason stack count** — how many distinct themes are packed into one response; multi-reason responses are plausibly harder to move with a single fix.
+4. **Would-help themes** — categorizes what the 42 "Maybe" respondents said would change their mind (the survey only asks this question of Maybes, never of firm Nos).
+
+Outputs:
+- `data/processed/parent_survey_insights.csv` — the cleaned data plus one column per insight, row-level.
+- `data/processed/insights_summary.csv` — headline counts/percentages, grouped by an `Insight` column so each of the four stays easy to isolate when pulled into the dashboard.
+
+```
+python3 scripts/derive_insights.py
+```
