@@ -69,6 +69,20 @@ GOING_CATEGORY_ORDER = [
 CONTROLLABILITY_ORDER = [
     "HXP Can Directly Fix", "HXP Can Influence", "Family's Own Choice", "Unknown",
 ]
+# The subset of NOT_GOING categories mapped to "HXP Can Directly Fix" or
+# "HXP Can Influence" in derive_insights.py's CONTROLLABILITY dict, ranked.
+CONTROLLABLE_REASON_ORDER = [
+    "Cost / Finances", "Work Schedule / Time Off", "Not a Traveler / Personal Preference",
+    "Not Aware It Was an Option", "Health / Physical / Age", "Trip / Spot Was Already Full",
+]
+# "Easy conversions": controllable reasons that need zero persuasion to fix -
+# purely information or operations, not a budget or schedule change. A
+# judgment call layered on top of controllability - revisit if the Parent
+# Builder team reads it differently (e.g. whether "Not a Traveler" belongs
+# here too is arguable; left out since it's an attitude shift, not a fact fix).
+EASY_CONVERSION_ORDER = [
+    "Not Aware It Was an Option", "Trip / Spot Was Already Full",
+]
 WOULD_HELP_ORDER = [
     "Cost / Financial Assistance", "Time / Scheduling", "Childcare for Other Kids",
     "Waiting for Right Timing (kids' ages)", "Other / Uncategorized",
@@ -178,6 +192,16 @@ def build_chart_data_sheet(wb):
         "Would-Help Themes (Maybe segment)", ctrl_last + 3, "Theme", WOULD_HELP_ORDER, "B",
         lambda cat: f'=COUNTIF(Insights!$L$2:$L$1190,"{cat}")',
     )
+    controllable_header, controllable_last = table(
+        "Reasons Parents Don't Go That HXP Can Control", wh_last + 3, "Category",
+        CONTROLLABLE_REASON_ORDER, "B",
+        lambda cat: f'=COUNTIF(Insights!$F$2:$F$1190,"{cat}")',
+    )
+    easy_header, easy_last = table(
+        "Easy Conversions (low-effort fixes within the controllable set)", controllable_last + 3,
+        "Category", EASY_CONVERSION_ORDER, "B",
+        lambda cat: f'=COUNTIF(Insights!$F$2:$F$1190,"{cat}")',
+    )
 
     ws.column_dimensions["A"].width = 42
     ws.column_dimensions["B"].width = 10
@@ -186,6 +210,8 @@ def build_chart_data_sheet(wb):
         "going": (go_header, go_last),
         "controllability": (ctrl_header, ctrl_last),
         "would_help": (wh_header, wh_last),
+        "controllable_reasons": (controllable_header, controllable_last),
+        "easy_conversions": (easy_header, easy_last),
     }
 
 
@@ -241,11 +267,8 @@ def build_dashboard_sheet(wb, chart_ranges):
     ctrl_header, ctrl_last = chart_ranges["controllability"]
     ctrl_data_range = f"'Chart Data'!B{ctrl_header + 1}:B{ctrl_last}"
 
-    total_formula = "=COUNTA(Insights!A2:A1190)"
-    add_kpi_card(ws, 2, 5, 3, "Total Responses", total_formula, "#,##0")
-    add_kpi_card(ws, 5, 5, 3, "Planning to Go (Yes)",
-                 '=COUNTIF(Insights!A2:A1190,"Yes")/COUNTA(Insights!A2:A1190)', "0.0%", color=BLUE)
-    add_kpi_card(ws, 8, 5, 3, "Not Going (No)",
+    add_kpi_card(ws, 2, 5, 3, "Total Responses", "=COUNTA(Insights!A2:A1190)", "#,##0")
+    add_kpi_card(ws, 5, 5, 3, "Not Going (No)",
                  '=COUNTIF(Insights!A2:A1190,"No")/COUNTA(Insights!A2:A1190)', "0.0%", color=ORANGE)
     # Denominator reuses the already-verified Chart Data controllability counts
     # (sum of all 4 buckets = every "No" row that has a stated reason) rather
@@ -253,26 +276,27 @@ def build_dashboard_sheet(wb, chart_ranges):
     # used to check this workbook could not reliably confirm. Range is derived
     # from chart_ranges, not hardcoded - the controllability table's row
     # position shifts whenever another table above it changes length.
-    add_kpi_card(ws, 11, 5, 3, '"No" Reasons HXP Can Control',
+    add_kpi_card(ws, 8, 5, 3, "Of Those 'No's, % HXP Can Control",
                  "=(COUNTIF(Insights!I2:I1190,\"HXP Can Directly Fix\")+COUNTIF(Insights!I2:I1190,\"HXP Can Influence\"))"
                  f"/SUM({ctrl_data_range})",
                  "0.0%", color=BLUE)
+    add_kpi_card(ws, 11, 5, 3, "'No's That Are Family Preference",
+                 '=COUNTIF(Insights!I2:I1190,"Family\'s Own Choice")', "#,##0", color=MUTED)
     add_kpi_card(ws, 14, 5, 3, "Warm Leads (Soft 'No' Signal)",
                  "=COUNTIF(Insights!J2:J1190,TRUE)", "#,##0", color=ORANGE)
 
     ws_data = wb["Chart Data"]
-    ngo_header, ngo_last = chart_ranges["not_going"]
     go_header, go_last = chart_ranges["going"]
-    ctrl_header, ctrl_last = chart_ranges["controllability"]
     wh_header, wh_last = chart_ranges["would_help"]
+    controllable_header, controllable_last = chart_ranges["controllable_reasons"]
+    easy_header, easy_last = chart_ranges["easy_conversions"]
 
-    chart1 = make_bar_chart(ws_data, ngo_header, ngo_last, "Why Parents Don't Go", single_color=BLUE)
+    chart1 = make_bar_chart(ws_data, controllable_header, controllable_last,
+                             "Reasons Parents Don't Go That HXP Can Control", single_color=BLUE)
     ws.add_chart(chart1, "B11")
 
-    chart2 = make_bar_chart(
-        ws_data, ctrl_header, ctrl_last, "Controllability of \"No\" Reasons",
-        point_colors=[BLUE, ORANGE, MUTED, LIGHT_MUTED],
-    )
+    chart2 = make_bar_chart(ws_data, easy_header, easy_last,
+                             "Easy Conversions (low-effort fixes)", single_color=ORANGE)
     ws.add_chart(chart2, "L11")
 
     chart3 = make_bar_chart(ws_data, go_header, go_last, "Why Parents Do Go", single_color=BLUE)
