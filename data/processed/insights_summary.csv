@@ -1,15 +1,15 @@
 Insight,Metric,Value
-1. Controllability,HXP Can Directly Fix,237
-1. Controllability,HXP Can Directly Fix (% of reasons given),26.5
-1. Controllability,HXP Can Influence,220
-1. Controllability,HXP Can Influence (% of reasons given),24.6
-1. Controllability,Family's Own Choice,401
-1. Controllability,Family's Own Choice (% of reasons given),44.8
-1. Controllability,Unknown,38
-1. Controllability,Unknown (% of reasons given),4.2
+1. Controllability,HXP Can Directly Fix,239
+1. Controllability,HXP Can Directly Fix (% of reasons given),26.7
+1. Controllability,HXP Can Influence,222
+1. Controllability,HXP Can Influence (% of reasons given),24.8
+1. Controllability,Family's Own Choice,418
+1. Controllability,Family's Own Choice (% of reasons given),46.7
+1. Controllability,Unknown,17
+1. Controllability,Unknown (% of reasons given),1.9
 2. Soft No Signal,Responses hinting at future interest,30
 2. Soft No Signal,% of 'No' reasons given,3.3
-3. Reason Stack Count,Single-theme responses,647
+3. Reason Stack Count,Single-theme responses,668
 3. Reason Stack Count,Multi-theme responses (2+ stacked reasons),211
 3. Reason Stack Count,Multi-theme (% of 'No' reasons given),23.5
 4. Would-Help Themes,Total 'Maybe' respondents (persuadable segment),42

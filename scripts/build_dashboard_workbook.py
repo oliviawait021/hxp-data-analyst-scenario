@@ -51,9 +51,10 @@ THIN_BORDER = Border(*(Side(style="thin", color=BORDER_COLOR) for _ in range(4))
 # live COUNTIF formulas, so this only controls display order).
 NOT_GOING_CATEGORY_ORDER = [
     "Cost / Finances", "Work Schedule / Time Off", "Wants Child to Have Independent Experience",
-    "Other Kids / Family at Home", "Child Didn't Want Parent to Come", "Other / Uncategorized",
-    "Another Family Member Going Instead", "Not a Traveler / Personal Preference",
-    "Not Aware It Was an Option", "Other Life Commitment", "Health / Physical / Age",
+    "Other Kids / Family at Home", "Child Didn't Want Parent to Come",
+    "Another Family Member Going Instead", "Other / Uncategorized",
+    "Not a Traveler / Personal Preference", "Not Aware It Was an Option",
+    "Other Life Commitment", "Health / Physical / Age", "Family's Own Choice (No Elaboration)",
     "Trip / Spot Was Already Full", "Not Needed",
 ]
 GOING_CATEGORY_ORDER = [

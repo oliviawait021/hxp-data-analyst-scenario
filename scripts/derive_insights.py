@@ -58,6 +58,7 @@ CONTROLLABILITY = {
     "Another Family Member Going Instead": "Family's Own Choice",
     "Other Life Commitment": "Family's Own Choice",
     "Not Needed": "Family's Own Choice",
+    "Family's Own Choice (No Elaboration)": "Family's Own Choice",
     "Other / Uncategorized": "Unknown",
 }
 
