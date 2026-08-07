@@ -80,8 +80,18 @@ CONTROLLABLE_REASON_ORDER = [
 # judgment call layered on top of controllability - revisit if the Parent
 # Builder team reads it differently (e.g. whether "Not a Traveler" belongs
 # here too is arguable; left out since it's an attitude shift, not a fact fix).
-EASY_CONVERSION_ORDER = [
-    "Not Aware It Was an Option", "Trip / Spot Was Already Full",
+#
+# Each bucket blends the matching "No" reason with the matching "Maybe"
+# would-help theme - a Maybe respondent who said "I'd need more info" is the
+# same underlying fix as a No respondent who said "I wasn't aware it was an
+# option", so they're counted together rather than only looking at Nos.
+EASY_CONVERSIONS = [
+    ("Not Aware It Was an Option (+ Maybe: wants more info)",
+     '=COUNTIF(Insights!$F$2:$F$1190,"Not Aware It Was an Option")'
+     '+COUNTIF(Insights!$L$2:$L$1190,"More Information / Awareness")'),
+    ("Trip/Spot Was Already Full (+ Maybe: registration/spot)",
+     '=COUNTIF(Insights!$F$2:$F$1190,"Trip / Spot Was Already Full")'
+     '+COUNTIF(Insights!$L$2:$L$1190,"Registration / Spot Availability")'),
 ]
 WOULD_HELP_ORDER = [
     "Cost / Financial Assistance", "Time / Scheduling", "Childcare for Other Kids",
@@ -197,10 +207,11 @@ def build_chart_data_sheet(wb):
         CONTROLLABLE_REASON_ORDER, "B",
         lambda cat: f'=COUNTIF(Insights!$F$2:$F$1190,"{cat}")',
     )
+    easy_conversion_formulas = dict(EASY_CONVERSIONS)
     easy_header, easy_last = table(
-        "Easy Conversions (low-effort fixes within the controllable set)", controllable_last + 3,
-        "Category", EASY_CONVERSION_ORDER, "B",
-        lambda cat: f'=COUNTIF(Insights!$F$2:$F$1190,"{cat}")',
+        "Easy Conversions (No reasons blended with matching Maybe would-help themes)",
+        controllable_last + 3, "Category", list(easy_conversion_formulas.keys()), "B",
+        lambda label: easy_conversion_formulas[label],
     )
 
     ws.column_dimensions["A"].width = 42
@@ -286,13 +297,12 @@ def build_dashboard_sheet(wb, chart_ranges):
                  "=COUNTIF(Insights!J2:J1190,TRUE)", "#,##0", color=ORANGE)
 
     ws_data = wb["Chart Data"]
+    ngo_header, ngo_last = chart_ranges["not_going"]
     go_header, go_last = chart_ranges["going"]
     wh_header, wh_last = chart_ranges["would_help"]
-    controllable_header, controllable_last = chart_ranges["controllable_reasons"]
     easy_header, easy_last = chart_ranges["easy_conversions"]
 
-    chart1 = make_bar_chart(ws_data, controllable_header, controllable_last,
-                             "Reasons Parents Don't Go That HXP Can Control", single_color=BLUE)
+    chart1 = make_bar_chart(ws_data, ngo_header, ngo_last, "Why Parents Don't Go", single_color=BLUE)
     ws.add_chart(chart1, "B11")
 
     chart2 = make_bar_chart(ws_data, easy_header, easy_last,
