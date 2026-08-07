@@ -58,9 +58,8 @@ NOT_GOING_CATEGORY_ORDER = [
     "Trip / Spot Was Already Full", "Not Needed",
 ]
 GOING_CATEGORY_ORDER = [
-    "Wanted Shared Experience with Child", "Previous Positive Experience",
-    "Faith / Service Motivation", "Child/Spouse Asked Them to Go",
-    "Family Member Was the Reason (No Elaboration)", "Other / Uncategorized",
+    "Wanted Shared Experience with Child", "Family Member Asked or Influenced Them to Go",
+    "Previous Positive Experience", "Faith / Service Motivation", "Other / Uncategorized",
     "Love of Travel / Culture", "Trust in the HXP Program",
     "Concerned About Child Going Alone / Safety",
     "Securing/Ensuring Child's Spot (Registration Timing)",

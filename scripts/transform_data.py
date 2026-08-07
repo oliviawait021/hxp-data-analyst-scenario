@@ -51,13 +51,21 @@ NOT_GOING_CATEGORIES = [
 
 GOING_CATEGORIES = [
     ("Personally Invited by HXP Staff/Trip Leader", r"trip leader (asked|invited)|hxp (office|staff) reach(ed|ing) out|asked by the trip leader"),
-    ("Securing/Ensuring Child's Spot (Registration Timing)", r"(ensur|guarantee|secur|open(ed)?|free(d)? up) (a |my son'?s? |my daughter'?s? )?spot|late to sign|sign(ed)? up so|earlier selection|priority selection"),
+    # "ensur\w*" etc (not the bare stem) so this matches "Ensuring a spot",
+    # "guaranteed a spot", not just the infinitive form.
+    ("Securing/Ensuring Child's Spot (Registration Timing)", r"(ensur\w*|guarantee\w*|secur\w*|open(ed)?|free(d)? up) (a |my son'?s? |my daughter'?s? )?spot|late to sign|sign(ed)? up so|earlier selection|priority selection"),
     ("Concerned About Child Going Alone / Safety", r"wouldn'?t go with me|don'?t want to send.{0,20}alone|not willing to let|leave the country without me|too young to (go alone|travel alone)|health concern|medical concern"),
-    # Terse answers that just name who influenced them, with no further elaboration -
-    # kept isolated from "Other/Uncategorized" so it doesn't look like unstructured noise.
-    ("Family Member Was the Reason (No Elaboration)", r"^(my |our )?(daughter|son|wife|husband|spouse|builder|youth|child)( and (my |our )?(daughter|son|wife|husband|spouse|builder|youth|child))?\.?,?!?$"),
     ("Wanted Shared Experience with Child", r"experience|memories|bond|together|time with|spend time|excit|do something with"),
-    ("Child/Spouse Asked Them to Go", r"asked (for )?(me|him|her)|invited|want(ed)? me to (go|come)|want(ed)? (him|her) to (go|come)"),
+    # Merged: an explicit invitation ("asked me to go") and a terse answer
+    # that just names who influenced them ("My daughter") are the same
+    # underlying driver - a family member is why they went - so they're
+    # counted together rather than splitting hairs over how much detail
+    # the parent happened to write.
+    ("Family Member Asked or Influenced Them to Go",
+     r"asked (for )?(me|him|her)|invited|want(ed)? me to (go|come)|want(ed)? (him|her) to (go|come)|"
+     r"could go with (my |our )?(son|daughter|wife|husband|child)|said it was okay|"
+     r"^(my |our )?(daughter|son|wife|husband|spouse|builder|youth|child)"
+     r"( and (my |our )?(daughter|son|wife|husband|spouse|builder|youth|child))?\.?,?!?$"),
     ("Love of Travel / Culture", r"travel|culture|adventure|explore"),
     ("Previous Positive Experience", r"previous|been.{0,15}before|last year|again|gone in the past|(took|take) turns|tradition|always (our )?intention|my turn"),
     ("Faith / Service Motivation", r"\bspirit(ual)?\b|\bfaith\b|\bserve\b|service|god|mission|humanitarian|\bpray|testimon(y|ies)"),
