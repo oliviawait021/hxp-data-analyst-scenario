@@ -30,29 +30,33 @@ WOULD_HELP_COL = "What would help change your decision to go?"
 NOT_GOING_CATEGORIES = [
     ("Trip / Spot Was Already Full", r"(was|is) (already )?full\b|already had (both|all|enough)|no (spots?|room|space) (left|available)|spots? (were|was) (taken|full)"),
     ("Cost / Finances", r"\bcost\b|\bmoney\b|\bprice\b|afford|\bbudget\b|expensive|\bexpense\b|financ|\bfunds?\b|\$"),
-    ("Work Schedule / Time Off", r"\bwork\b|\bjob\b|\bschedule\b|\bbusy\b|obligation|\bpto\b|time off|vacation|\btim(e|ing)\b|availab|responsibilit|commitment"),
-    ("Other Kids / Family at Home", r"other (kid|child)|younger|sibling|kids? at home|children at home|family at home|other kiddos|newborn|\bbaby\b|young ones|lot of kids|many kids|child ?care|can'?t leave|couldn'?t leave|leav(e|ing) (my |the )?family|away from (home|family)|for that long"),
-    ("Another Family Member Going Instead", r"(husband|wife|dad|father|mom|mother|uncle|aunt|grandma|grandpa|grandmother|grandfather|sister|brother|cousin)[a-z '\"-]{0,25}(is going|was going|went|gone|wanted to go|going (this|as)|is the parent builder|already)|another (parent|family member)"),
+    ("Work Schedule / Time Off", r"\bwork\b|\bjob\b|schedul|\bbusy\b|obligation|\bpto\b|time off|vacation|\btim(e|ing)\b|availab|responsibilit|commitment|booked (up )?with|too long (of a )?trip"),
+    ("Other Kids / Family at Home", r"other (kid|child)|younger|sibling|kids? at home|children at home|family at home|other kiddos|newborn|\bbaby\b|young ones|lot of kids|many kids|\d+ kids\b|child ?care|can'?t leave|couldn'?t leave|leav(e|ing) (my |the )?family|away from (home|family)|for that long|(son|daughter|child|kid)s?[a-z '\"]{0,25}at home|little one at home|a little at home"),
+    ("Another Family Member Going Instead", r"(husband|wife|spouse|dad|father|mom|mother|uncle|aunt|grandma|grandpa|grandmother|grandfather|sister|brother|cousin)[a-z '\"-]{0,25}(is going|was going|went|gone|wanted to go|going (this|as)|is the parent builder|already)|another (parent|family member)|friends? (and|&) family (have|has)? ?(been|gone)|extended family (went|has gone)|previous (child|children) (have|has) gone|other (kids|children) (have|has) gone|call(ed)? dibs"),
     # Keyed on the CHILD's expressed wish ("she didn't want me to go"), not the parent's own
     # reasoning ("I wanted her to have it without me") - the latter belongs to the next category.
-    ("Child Didn't Want Parent to Come", r"(did|does|would) ?(not|n'?t) want (me|us)|asked (me )?not|want(ed)? (him|her) to go alone|want(ed)? (his|her) own (space|experience)|by (himself|herself)|not welcome"),
-    ("Wants Child to Have Independent Experience", r"independen|own experience|with ?out (a |his |her |my )?(me|mom|dad|us|parent)|on (his|her) own|\bgrow\b|confidence|rely on (his|her)|\balone\b|\bsolo\b|autonomy|\bexperience\b"),
+    ("Child Didn't Want Parent to Come", r"(did|does|would) ?(not|n'?t) (really )?want (me|us|a parent|the parent)|asked (me )?not|didn'?t ask me to (go|come)|prefers (i|we) (didn'?t|don'?t|not) go|want(ed)? (him|her) to go alone|want(ed)? (his|her) own (space|experience|adventure)|by (himself|herself)|not welcome"),
+    ("Wants Child to Have Independent Experience", r"independen|own experience|with ?out (a |his |her |my )?(me|mom|dad|us|parent)|on (his|her|their) own|\bgrow(th)?\b|confidence|rely on (his|her)|\balone\b|\bsolo\b|autonomy|\bexperience\b|parent.?free|trust (himself|herself|themselves)|open up more|(builder|child|kid)'?s choice"),
     ("Not a Traveler / Personal Preference", r"not (a |an )?(good |huge )?(traveler|fan of travel)|no desire|not comfortable|not good with|don'?t enjoy|not adventurous|not interested"),
-    ("Health / Physical / Age", r"\bhealth\b|physical|\bknee\b|bad back|back (pain|injury|problem)|\bage\b|\btoo old\b|medical|injur|illness|disab|\bdeaf\b|hearing"),
-    ("Other Life Commitment", r"\bmission\b|wedding|surgery|pregnan|\bmov(e|ing)\b|deploy|trip leader|another (trip|program)|graduat|out of town|other travel plans|business trip"),
-    ("Not Aware It Was an Option", r"did ?n'?t (really )?understand|not sure what|unclear|confus|not aware|wasn'?t aware|did ?n'?t realize|never heard (it|about)|did ?n'?t know (about|it)|thought (this|it) was (for|only)"),
+    ("Health / Physical / Age", r"\bhealth\b|physical|\bknee\b|bad back|back (pain|injury|problem)|\bage\b|\btoo old\b|medical|injur|illness|disab|\bdeaf\b|hearing|keep up (physically )?with the kids"),
+    ("Other Life Commitment", r"\bmission\b|wedding|surgery|pregnan|\bmov(e|ing)\b|deploy|trip leader|another (trip|program)|graduat|out of town|other travel plans|business trip|other activities"),
+    ("Not Aware It Was an Option", r"did ?n'?t (really )?understand|not sure what|unclear|confus|not aware|wasn'?t aware|did ?n'?t realize|never heard (it|about)|did ?n'?t know (about|it)|thought (this|it) was (for|only)|what to expect|don'?t know anyone|^noth?ing\.?$|did (not|n'?t) consider"),
     ("Not Needed", r"not needed|not necessary|no need|did ?n'?t need"),
 ]
 
 GOING_CATEGORIES = [
     ("Personally Invited by HXP Staff/Trip Leader", r"trip leader (asked|invited)|hxp (office|staff) reach(ed|ing) out|asked by the trip leader"),
-    ("Concerned About Child Going Alone / Safety", r"wouldn'?t go with me|don'?t want to send.{0,20}alone|not willing to let|leave the country without me|too young to (go alone|travel alone)"),
-    ("Wanted Shared Experience with Child", r"experience|memories|bond|together|time with|spend time"),
-    ("Child/Spouse Asked Them to Go", r"asked (me|him|her)|invited"),
+    ("Securing/Ensuring Child's Spot (Registration Timing)", r"(ensur|guarantee|secur|open(ed)?|free(d)? up) (a |my son'?s? |my daughter'?s? )?spot|late to sign|sign(ed)? up so|earlier selection|priority selection"),
+    ("Concerned About Child Going Alone / Safety", r"wouldn'?t go with me|don'?t want to send.{0,20}alone|not willing to let|leave the country without me|too young to (go alone|travel alone)|health concern|medical concern"),
+    # Terse answers that just name who influenced them, with no further elaboration -
+    # kept isolated from "Other/Uncategorized" so it doesn't look like unstructured noise.
+    ("Family Member Was the Reason (No Elaboration)", r"^(my |our )?(daughter|son|wife|husband|spouse|builder|youth|child)( and (my |our )?(daughter|son|wife|husband|spouse|builder|youth|child))?\.?,?!?$"),
+    ("Wanted Shared Experience with Child", r"experience|memories|bond|together|time with|spend time|excit|do something with"),
+    ("Child/Spouse Asked Them to Go", r"asked (for )?(me|him|her)|invited|want(ed)? me to (go|come)|want(ed)? (him|her) to (go|come)"),
     ("Love of Travel / Culture", r"travel|culture|adventure|explore"),
-    ("Previous Positive Experience", r"previous|been before|last year|again|gone in the past|took turns|tradition|always (our )?intention|my turn"),
-    ("Faith / Service Motivation", r"\bspirit\b|\bfaith\b|\bserve\b|service|god|mission|humanitarian|\bpray"),
-    ("Trust in the HXP Program", r"trust|impressed by hxp|good hands|love hxp|hxp (program|offers)"),
+    ("Previous Positive Experience", r"previous|been.{0,15}before|last year|again|gone in the past|(took|take) turns|tradition|always (our )?intention|my turn"),
+    ("Faith / Service Motivation", r"\bspirit(ual)?\b|\bfaith\b|\bserve\b|service|god|mission|humanitarian|\bpray|testimon(y|ies)"),
+    ("Trust in the HXP Program", r"trust|impressed by hxp|good hands|love hxp|hxp (program|offers)|testimonial|q ?& ?a night|info(rmation)? (night|session)"),
 ]
 
 

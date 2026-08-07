@@ -105,13 +105,17 @@ def add_reason_stack_count(row):
 # segment (42 people total).
 # ============================================================
 WOULD_HELP_CATEGORIES = [
-    ("Cost / Financial Assistance", r"\bcost\b|\bmoney\b|\bfund|\bfinanc|\bexpense|cheap|\bprice\b"),
+    ("Cost / Financial Assistance", r"\bcost\b|\bmoney\b|\bfund|\bfinanc|\bexpens\w*|cheap|\bprice\b"),
     ("Time / Scheduling", r"\btime\b|\bschedule|\bdates?\b|\bbusy\b|advance notice|free time"),
-    ("Childcare for Other Kids", r"child ?care|younger kids|other (kid|child)|left unattended|unattended"),
+    ("Childcare for Other Kids", r"child ?care|younger kids|other (kid|child)|left unattended|unattended|care for (my |the )?(kids|children)|leave (my |the )?(kids|children) at home"),
     ("Registration / Spot Availability", r"easier to get a spot|mess up|process|\bspots?\b|registration"),
     ("More Information / Awareness", r"more info|don'?t know much|need more info|not sure what"),
     ("Waiting for Right Timing (kids' ages)", r"younger|older|age range|next kid|sibling|grow"),
     ("Health", r"\bhealth\b"),
+    # A distinct signal from "no answer": the parent engaged with the question
+    # but doesn't have a concrete ask yet - different from silence, worth
+    # keeping separate from "Other/Uncategorized".
+    ("No Specific Ask / Undecided", r"not sure|don'?t know\b|^n/?a$"),
 ]
 
 

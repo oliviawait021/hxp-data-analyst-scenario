@@ -51,24 +51,28 @@ THIN_BORDER = Border(*(Side(style="thin", color=BORDER_COLOR) for _ in range(4))
 # live COUNTIF formulas, so this only controls display order).
 NOT_GOING_CATEGORY_ORDER = [
     "Cost / Finances", "Work Schedule / Time Off", "Wants Child to Have Independent Experience",
-    "Other Kids / Family at Home", "Other / Uncategorized", "Child Didn't Want Parent to Come",
+    "Other Kids / Family at Home", "Child Didn't Want Parent to Come", "Other / Uncategorized",
     "Another Family Member Going Instead", "Not a Traveler / Personal Preference",
-    "Other Life Commitment", "Not Aware It Was an Option", "Trip / Spot Was Already Full",
-    "Health / Physical / Age", "Not Needed",
+    "Not Aware It Was an Option", "Other Life Commitment", "Health / Physical / Age",
+    "Trip / Spot Was Already Full", "Not Needed",
 ]
 GOING_CATEGORY_ORDER = [
-    "Wanted Shared Experience with Child", "Other / Uncategorized", "Previous Positive Experience",
-    "Faith / Service Motivation", "Child/Spouse Asked Them to Go", "Love of Travel / Culture",
-    "Concerned About Child Going Alone / Safety", "Trust in the HXP Program",
+    "Wanted Shared Experience with Child", "Previous Positive Experience",
+    "Faith / Service Motivation", "Child/Spouse Asked Them to Go",
+    "Family Member Was the Reason (No Elaboration)", "Other / Uncategorized",
+    "Love of Travel / Culture", "Trust in the HXP Program",
+    "Concerned About Child Going Alone / Safety",
+    "Securing/Ensuring Child's Spot (Registration Timing)",
     "Personally Invited by HXP Staff/Trip Leader",
 ]
 CONTROLLABILITY_ORDER = [
     "HXP Can Directly Fix", "HXP Can Influence", "Family's Own Choice", "Unknown",
 ]
 WOULD_HELP_ORDER = [
-    "Cost / Financial Assistance", "Other / Uncategorized", "Time / Scheduling",
-    "Waiting for Right Timing (kids' ages)", "Childcare for Other Kids",
-    "More Information / Awareness", "Health", "Registration / Spot Availability",
+    "Cost / Financial Assistance", "Time / Scheduling", "Childcare for Other Kids",
+    "Waiting for Right Timing (kids' ages)", "Other / Uncategorized",
+    "No Specific Ask / Undecided", "More Information / Awareness", "Health",
+    "Registration / Spot Availability",
 ]
 
 
@@ -233,6 +237,9 @@ def build_dashboard_sheet(wb, chart_ranges):
     ws["B3"] = "1,189 parent responses collected before this year's trips"
     ws["B3"].font = Font(size=11, color=SECONDARY_INK, italic=True)
 
+    ctrl_header, ctrl_last = chart_ranges["controllability"]
+    ctrl_data_range = f"'Chart Data'!B{ctrl_header + 1}:B{ctrl_last}"
+
     total_formula = "=COUNTA(Insights!A2:A1190)"
     add_kpi_card(ws, 2, 5, 3, "Total Responses", total_formula, "#,##0")
     add_kpi_card(ws, 5, 5, 3, "Planning to Go (Yes)",
@@ -242,10 +249,12 @@ def build_dashboard_sheet(wb, chart_ranges):
     # Denominator reuses the already-verified Chart Data controllability counts
     # (sum of all 4 buckets = every "No" row that has a stated reason) rather
     # than a COUNTIFS(...,"<>") not-blank idiom, which the formula verifier
-    # used to check this workbook could not reliably confirm.
+    # used to check this workbook could not reliably confirm. Range is derived
+    # from chart_ranges, not hardcoded - the controllability table's row
+    # position shifts whenever another table above it changes length.
     add_kpi_card(ws, 11, 5, 3, '"No" Reasons HXP Can Control',
                  "=(COUNTIF(Insights!I2:I1190,\"HXP Can Directly Fix\")+COUNTIF(Insights!I2:I1190,\"HXP Can Influence\"))"
-                 "/SUM('Chart Data'!B35:B38)",
+                 f"/SUM({ctrl_data_range})",
                  "0.0%", color=BLUE)
     add_kpi_card(ws, 14, 5, 3, "Warm Leads (Soft 'No' Signal)",
                  "=COUNTIF(Insights!J2:J1190,TRUE)", "#,##0", color=ORANGE)

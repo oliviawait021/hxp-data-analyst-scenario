@@ -1,23 +1,24 @@
 Insight,Metric,Value
-1. Controllability,HXP Can Directly Fix,234
-1. Controllability,HXP Can Directly Fix (% of reasons given),26.1
-1. Controllability,HXP Can Influence,216
-1. Controllability,HXP Can Influence (% of reasons given),24.1
-1. Controllability,Family's Own Choice,382
-1. Controllability,Family's Own Choice (% of reasons given),42.6
-1. Controllability,Unknown,64
-1. Controllability,Unknown (% of reasons given),7.1
+1. Controllability,HXP Can Directly Fix,237
+1. Controllability,HXP Can Directly Fix (% of reasons given),26.5
+1. Controllability,HXP Can Influence,220
+1. Controllability,HXP Can Influence (% of reasons given),24.6
+1. Controllability,Family's Own Choice,401
+1. Controllability,Family's Own Choice (% of reasons given),44.8
+1. Controllability,Unknown,38
+1. Controllability,Unknown (% of reasons given),4.2
 2. Soft No Signal,Responses hinting at future interest,30
 2. Soft No Signal,% of 'No' reasons given,3.3
-3. Reason Stack Count,Single-theme responses,631
-3. Reason Stack Count,Multi-theme responses (2+ stacked reasons),201
-3. Reason Stack Count,Multi-theme (% of 'No' reasons given),22.4
+3. Reason Stack Count,Single-theme responses,647
+3. Reason Stack Count,Multi-theme responses (2+ stacked reasons),211
+3. Reason Stack Count,Multi-theme (% of 'No' reasons given),23.5
 4. Would-Help Themes,Total 'Maybe' respondents (persuadable segment),42
-4. Would-Help Themes,Cost / Financial Assistance,14
-4. Would-Help Themes,Other / Uncategorized,7
+4. Would-Help Themes,Cost / Financial Assistance,16
 4. Would-Help Themes,Time / Scheduling,4
+4. Would-Help Themes,Childcare for Other Kids,3
 4. Would-Help Themes,Waiting for Right Timing (kids' ages),3
-4. Would-Help Themes,Childcare for Other Kids,2
+4. Would-Help Themes,Other / Uncategorized,2
+4. Would-Help Themes,No Specific Ask / Undecided,2
 4. Would-Help Themes,More Information / Awareness,1
 4. Would-Help Themes,Health,1
 4. Would-Help Themes,Registration / Spot Availability,1
